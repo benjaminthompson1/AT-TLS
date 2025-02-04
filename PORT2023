@@ -1,0 +1,20 @@
+;***********************************************************************
+; TN3270 z/OS V1R23  Server Include File for AT-TLS Support            *
+;                                                                      *
+;***********************************************************************
+TelnetParms            ; Standard SSL/TLS TELNET port                   
+  TTLSPort 2023                                                         
+  ConnType Secure      ; Must be secure connection                      
+EndTelnetParms                                                          
+BeginVTAM              ; Mapping for TTLS port.                         
+  Port 2023            ;                                                
+  DEFAULTLUS           ; Define LUs to be used for general users.       
+    TCP00001..TCP00030                                                  
+  ENDDEFAULTLUS                                                         
+  LINEMODEAPPL TSO     ; Send all line-mode terminals directly to TSO.  
+  ALLOWAPPL TSO* DISCONNECTABLE                                         
+                       ; If a TSO session is closed, disconnect the user
+                       ; rather than log off the user.                  
+  ALLOWAPPL *          ; Allow access to all applications.              
+  USSTCP USSN          ; Send out the default TN USS table              
+EndVTAM                                                                                                                
