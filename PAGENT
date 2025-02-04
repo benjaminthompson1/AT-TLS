@@ -1,0 +1,13 @@
+//PAGENT   PROC                                     
+//*                                                 
+//* IBM Communications Server for z/OS              
+//*                                                 
+//PAGENT   EXEC PGM=PAGENT,REGION=0M,TIME=NOLIMIT,  
+//         PARM='ENVAR("_CEE_ENVFILE_S=DD:STDENV")/'
+//SYSPRINT DD   SYSOUT=*                            
+//STDENV   DD   *                                   
+  PAGENT_CONFIG_FILE=/etc/pagent.conf               
+  PAGENT_LOG_FILE=/tmp/pagent.log                   
+  LIBPATH=/usr/lib                                  
+  TZ=AEST-10AEDT                                    
+/*                                                  

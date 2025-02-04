@@ -1,0 +1,94 @@
+#-------------------------------------------------#
+#  policy for TN3270                              #
+#-------------------------------------------------#
+TTLSRule TN3270
+{
+  LocalPortRange                  2023
+  Direction                       Inbound
+  TTLSGroupActionRef              TN3270_GA
+  TTLSEnvironmentActionRef        TN3270_EA
+}
+TTLSGroupAction                   TN3270_GA
+{
+  TTLSEnabled                     On
+  Trace                           1
+}
+TTLSEnvironmentAction             TN3270_EA
+{
+  HandshakeRole                   Server
+  TTLSKeyringParms
+  {
+    Keyring                       TCPIP/TN3270.TTLS
+  }
+  TTLSEnvironmentAdvancedParms
+  {
+  ApplicationControlled           On
+  SSLv2                           Off
+  SSLv3                           Off
+  TLSv1                           Off
+  TLSv1.1                         Off
+  TLSv1.2                         On
+  TLSv1.3                         On
+  }
+}
+#-------------------------------------------------#
+#  policy for the JCL Expert server.              #
+#-------------------------------------------------#
+TTLSRule CXP_SERVER
+{
+   LocalAddr                       All
+   LocalPortRangeRef               CXP_PORT
+   Direction                       Inbound
+   Priority                        255
+   TTLSGroupActionRef              CXP_GROUP_ACTION
+   TTLSEnvironmentActionRef        CXP_SERVER_ENVIRONMENT
+}
+TTLSRule                           CXP_CLIENT
+{
+   RemoteAddr                      All
+   RemotePortRangeRef              CXP_PORT
+   Direction                       Outbound
+   Priority                        255
+   TTLSGroupActionRef              CXP_GROUP_ACTION
+   TTLSEnvironmentActionRef        CXP_CLIENT_ENVIRONMENT
+}
+
+PortRange                          CXP_PORT
+{
+   Port                            8100
+}
+
+TTLSGroupAction                    CXP_GROUP_ACTION
+{
+   TTLSEnabled                     On
+   Trace                           1
+}
+
+TTLSEnvironmentAction              CXP_SERVER_ENVIRONMENT
+{
+   HandshakeRole                   ServerWithClientAuth
+   TTLSKeyringParms
+   {
+      Keyring                      CXPSRV/CXPServerRing
+   }
+   TTLSEnvironmentAdvancedParmsRef CXP_ENVIRONMENT_ADV
+}
+TTLSEnvironmentAction              CXP_CLIENT_ENVIRONMENT
+{
+   HandshakeRole                   Client
+   TTLSKeyringParms
+   {
+      Keyring                      IBMUSER/CXPClientRing
+   }
+   TTLSEnvironmentAdvancedParmsRef CXP_ENVIRONMENT_ADV
+}
+
+TTLSEnvironmentAdvancedParms       CXP_ENVIRONMENT_ADV
+{
+  SSLv2                            Off
+  SSLv3                            Off
+  TLSv1                            Off
+  TLSv1.1                          Off
+  TLSv1.2                          On
+  TLSv1.3                          Off
+}
