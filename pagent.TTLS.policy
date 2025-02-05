@@ -55,7 +55,7 @@ TTLSRule                           CXP_CLIENT
 
 PortRange                          CXP_PORT
 {
-   Port                            8100
+   Port                            27000
 }
 
 TTLSGroupAction                    CXP_GROUP_ACTION
